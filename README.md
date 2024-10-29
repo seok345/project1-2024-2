@@ -3,6 +3,131 @@ Ai_Software_Project1_2024_2
 2024-09-12
 오늘은 날씨도 별로라 학교 재낄까 하다 이교수님 수업 들으러 왔는데 좋았다.
 
+
+# openweathermap
+지정된 장소의 현재 날씨를 표시<br>
+[OpenWeatherMap실습해보기]("https://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/")
+```
+$.ajax({
+			type: "GET",
+			url: 'https://api.openweathermap.org/data/2.5/weather?q=London&units=metric&appid=7d96bc5108f52b80e2d9075a369b9f35',
+		}).done(function(response) {
+            console.log(response)
+            // alert(response.weather.main[0])
+
+            let wdata = response
+            let exdata = response.weather[0];re
+        
+            temp.innerText = wdata.main.temp + "°C";
+            min.innerText = wdata.main.temp_min;
+            max.innerText = wdata.main.temp_max;
+            wind.innerText = wdata.wind.speed;
+        
+            weather.innerText = exdata.main + "," + exdata.description;
+            icon.setAttribute('src', icon_url + exdata.icon + ".png");
+		}).fail(function(error) {
+			alert("!/js/user.js에서 에러발생: " + error.statusText);
+		});
+
+```
+# OPEN AI
+[OPEN AI 실습해보기](https://platform.openai.com/docs/overview)
+```
+$.ajax({
+        type: "POST",
+        url: "https://api.openai.com/v1/chat/completions",
+        headers: {
+            "Authorization": "Bearer " + OPENAPI_KEY
+        },
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8"
+    }).done(function (response) {
+        console.log(response)
+        //alert(response.choices[0].message.content)
+        txtOut.value = (response.choices[0].message.content)
+    }).fail(function (error) {
+        console.log(error)
+        errormsg = error.status + " : " + error.responseJSON.error.code + " - " + error.responseJSON.error.message
+        txtOut.value = errormsg
+    }
+```
+---------
+```
+    )
+$.ajax({
+        type: "POST",
+        url: "https://api.openai.com/v1/images/generations",
+        headers: {
+            "Authorization": "Bearer " + OPENAPI_KEY
+        },
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8"
+    }).done(function (response) {
+        console.log(response)
+        //alert(response.choices[0].message.content)
+        gimage.src = (response.data[0].url)
+        gimage2.src = (response.data[1].url)
+
+    }).fail(function (error) {
+        console.log(error)
+        errormsg = error.status + " : " + error.responseJSON.error.code + " - " + error.responseJSON.error.message
+        txtOut.value = errormsg
+    }
+    )
+```
+# google cloud vision
+[OpenWeatherMap실습해보기]("https://cloud.google.com/vision?hl=ko")
+```
+$.ajax({
+        type: "POST",
+        url: CV_URL,
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        data: JSON.stringify(data), 
+        contentType: "application/json; charset=utf-8"
+    }).done(function(response) {
+        let resultText = ''; 
+
+        if (response.responses[0].faceAnnotations) {
+            const faceAnnotations = response.responses[0].faceAnnotations;
+            
+            faceAnnotations.forEach((face, index) => {
+                const joyLikelihood = face.joyLikelihood;
+                const sorrowLikelihood = face.sorrowLikelihood;
+                const blurredLikelihood = face.blurredLikelihood;
+
+                let emotionStatus = `사진 속 ${index + 1}번째 사람은 : `;
+
+                if (blurredLikelihood === "VERY_LIKELY" || blurredLikelihood === "LIKELY") {
+                    emotionStatus += "얼굴이 너무 흐릿합니다.";
+                } else if (joyLikelihood === "VERY_LIKELY" || joyLikelihood === "LIKELY") {
+                    emotionStatus += "웃는 표정을 짓고 있습니다.";
+                } else if (sorrowLikelihood === "VERY_LIKELY" || sorrowLikelihood === "LIKELY") {
+                    emotionStatus += "우는 표정을 짓고 있습니다.";
+                } else {
+                    emotionStatus += "무표정 입니다.";
+                }
+
+                
+                resultText += emotionStatus + '\n';
+            });
+        } else {
+            resultText = "얼굴이 감지되지 않았습니다.";
+        }
+        
+        
+        document.getElementById("resultArea").value = resultText;
+
+    }).fail(function(error) {
+        console.log("이미지를 분석할 수 없습니다.");
+        document.getElementById("resultArea").value = "Error: 이미지를 분석할 수 없습니다.";
+    });
+
+```
+
+
 개발순서
 1. 소스수정
 2. 소스저장
