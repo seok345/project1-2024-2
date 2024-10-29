@@ -5,34 +5,24 @@ Ai_Software_Project1_2024_2
 
 
 # openweathermap
-지정된 장소의 현재 날씨를 표시<br>
+- 입력된 장소의 현재 날씨를 Openweathe API를 사용해 출력<br>
 [OpenWeatherMap실습해보기]("https://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/")
-```
+```javascript
 $.ajax({
 			type: "GET",
 			url: 'https://api.openweathermap.org/data/2.5/weather?q=London&units=metric&appid=7d96bc5108f52b80e2d9075a369b9f35',
 		}).done(function(response) {
             console.log(response)
-            // alert(response.weather.main[0])
-
-            let wdata = response
-            let exdata = response.weather[0];re
-        
-            temp.innerText = wdata.main.temp + "°C";
-            min.innerText = wdata.main.temp_min;
-            max.innerText = wdata.main.temp_max;
-            wind.innerText = wdata.wind.speed;
-        
-            weather.innerText = exdata.main + "," + exdata.description;
-            icon.setAttribute('src', icon_url + exdata.icon + ".png");
 		}).fail(function(error) {
 			alert("!/js/user.js에서 에러발생: " + error.statusText);
 		});
 
 ```
-# OPEN AI
-[OPEN AI 실습해보기](https://platform.openai.com/docs/overview)
-```
+# OPEN AI 
+OPEN AI 에서 제공하는 텍스트생성 및 이미지 생성 실습
+[OPEN AI 실습해보기](https://platform.openai.com/docs/overview)<br>
+- 사용자의 입력부분을 OpenAi API를 사용해 텍스트 형태의 출력값을 가져옴
+```javascript
 $.ajax({
         type: "POST",
         url: "https://api.openai.com/v1/chat/completions",
@@ -51,8 +41,8 @@ $.ajax({
         txtOut.value = errormsg
     }
 ```
----------
-```
+- 사용자의 입력부분을 OpenAi API를 사용해 생성된 이미지를 2장 출력함
+```javascript
     )
 $.ajax({
         type: "POST",
@@ -76,8 +66,28 @@ $.ajax({
     )
 ```
 # google cloud vision
+google cloud vision 에서 제공하는 FaceDetection 실습
+
 [OpenWeatherMap실습해보기]("https://cloud.google.com/vision?hl=ko")
+- 파일 입력 이벤트를 처리하여 이미지를 웹 페이지에 표시하고, 이미지 데이터에서 Base64 문자열을 추출하는 역할을 하는 함수
+```js
+function processFile(event) {
+    const content = event.target.result;
+    imagestring = content.replace('data:image/jpeg;base64,', ''); 
+    document.getElementById("gimage").src = content; 
+}
 ```
+- 파일을 업로드 하는 함수
+```js
+function uploadFiles(files) {
+    const file = files[0];
+    const reader = new FileReader();
+reader.onloadend = processFile;
+    reader.readAsDataURL(file); 
+}
+```
+- FaceDetection정보를 가져오고 출력하는 부분
+```javascript
 $.ajax({
         type: "POST",
         url: CV_URL,
@@ -90,35 +100,7 @@ $.ajax({
     }).done(function(response) {
         let resultText = ''; 
 
-        if (response.responses[0].faceAnnotations) {
-            const faceAnnotations = response.responses[0].faceAnnotations;
-            
-            faceAnnotations.forEach((face, index) => {
-                const joyLikelihood = face.joyLikelihood;
-                const sorrowLikelihood = face.sorrowLikelihood;
-                const blurredLikelihood = face.blurredLikelihood;
-
-                let emotionStatus = `사진 속 ${index + 1}번째 사람은 : `;
-
-                if (blurredLikelihood === "VERY_LIKELY" || blurredLikelihood === "LIKELY") {
-                    emotionStatus += "얼굴이 너무 흐릿합니다.";
-                } else if (joyLikelihood === "VERY_LIKELY" || joyLikelihood === "LIKELY") {
-                    emotionStatus += "웃는 표정을 짓고 있습니다.";
-                } else if (sorrowLikelihood === "VERY_LIKELY" || sorrowLikelihood === "LIKELY") {
-                    emotionStatus += "우는 표정을 짓고 있습니다.";
-                } else {
-                    emotionStatus += "무표정 입니다.";
-                }
-
-                
-                resultText += emotionStatus + '\n';
-            });
-        } else {
-            resultText = "얼굴이 감지되지 않았습니다.";
-        }
-        
-        
-        document.getElementById("resultArea").value = resultText;
+         document.getElementById("resultArea").value = resultText;
 
     }).fail(function(error) {
         console.log("이미지를 분석할 수 없습니다.");
