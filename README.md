@@ -4,6 +4,8 @@ Ai_Software_Project1_2024_2
 오늘은 날씨도 별로라 학교 재낄까 하다 이교수님 수업 들으러 왔는데 좋았다.
 
 
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)![jQuery](https://img.shields.io/badge/jquery-%230769AD.svg?style=for-the-badge&logo=jquery&logoColor=white)![Windows 11](https://img.shields.io/badge/Windows%2011-%230079d5.svg?style=for-the-badge&logo=Windows%2011&logoColor=white)![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+
 # openweathermap
 - 입력된 장소의 현재 날씨를 Openweathe API를 사용해 출력<br>
 [OpenWeatherMap실습해보기]("https://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/")
@@ -66,6 +68,7 @@ $.ajax({
     )
 ```
 # google cloud vision
+
 google cloud vision 에서 제공하는 FaceDetection 실습
 
 [OpenWeatherMap실습해보기]("https://cloud.google.com/vision?hl=ko")
@@ -108,7 +111,7 @@ $.ajax({
     });
 
 ```
-
+![alt text](ONEPERSON.png)
 
 개발순서
 1. 소스수정
